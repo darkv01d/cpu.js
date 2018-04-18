@@ -31,3 +31,6 @@
 	* 0x1A = store
 	* 0x1B = sub
 	* 0x1C = xor
+
+## Usage:
+nodejs unit <PATH/TO/EXECUTABLE>
