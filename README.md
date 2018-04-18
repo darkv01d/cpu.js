@@ -2,7 +2,6 @@
 
 ## Syntax
 
-	* 0x00 = "add"
 	* 0x00 = add rA, rB, rC
 	* 0x01 = and rA, rB, rC
 	* 0x02 = call rA
