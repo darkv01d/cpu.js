@@ -32,7 +32,7 @@
 */
 
 //Registers
-class CPU {
+module.exports = class CPU {
 	constructor() {
 		this.r = [];
 		this.sr = [];
@@ -241,4 +241,4 @@ class CPU {
 		this.sr["ip"]++;
 	}
 }
-module.exports = new CPU();
+//module.exports = new CPU();

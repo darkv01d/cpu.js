@@ -1,0 +1,12 @@
+cnst r0, 10
+cnst r1, :halt
+cnst r2, 1
+cnst r3, :main
+
+:main
+sub r0, r0, r2
+jmpeq r0, r1
+call r3
+
+:halt
+hlt

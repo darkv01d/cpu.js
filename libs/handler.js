@@ -1,40 +1,63 @@
+"use strict";
 var CPU = require("./cpu.js");
-//var Opcode = require("./opcode");
+var Literals = require("./literals.js");
 var fs = require("fs");
+//var c = new CPU();
 
-class FileHandler {
-	execute(data) {
-		for (var i = 0; i < data.length; i++) {
-			CPU.exec(data[i]);
-		} 
+module.exports = class FileHandler {
+	/*execute() {
+		console.log(this.it);
+		/ for (var i = 0; i < this.instructions.length; i++) {
+			this.registers.exec(this.instructions[i]);
+		} /
+	 } */
+
+	loadFile(filepath) {
+		fs.readFile(filepath, "utf8", this.storeData);
 	}
 
-	loadFile(filepath, callback) {
-		var rawData = fs.readFile(filepath, "utf8", function (err, data) {
-			if (err) {
+	storeData(err, data) {
+		if (err) {
+				return console.log(err);
+		}
+		//TODO create file class
+		var tmp = data.toString().split("\n"); //Seperate lines in array
+		var junk = new Array();
+		for (var i=0; i<tmp.length; i++) {
+			if (tmp[i].search(";") != -1) {
+				junk[i] = tmp[i].slice(0, tmp[i].search(";")).toString(); //remove comments
+			} else {
+				junk[i] = tmp[i];
+			}
+		}
+		var cleared = junk.filter(word => word.length >= 1); //cut empty lines
+		console.log(cleared)
+		var spliced = new Array();
+		for (var i = 0; i < cleared.length; i++) {
+			spliced[i] = new Array(cleared[i].slice(0,cleared[i].search(" ")), cleared[i].slice(cleared[i].search(" ")), cleared[i].slice(cleared[i].search(", "), cleared[i].slice(" ", cleared[i].length)));
+		}
+		console.log(spliced);
+		//replace literals
+		for (i = 0; i < cleared.length; i++) {
+			
+		}
+	}
+
+	saveFile() {
+		console.log(FileHandler.it);
+		fs.writeFile("convert", FileHandler.it, function(err) {
+ 			if(err) {
 				return console.log(err);
 			}
-			//TODO create file class
-			var it = data.toString().split("\n");
-			var instructions = new Array();
-			for (var i=0; i<it.length; i++) {
-				instructions[i] = it[i].slice(0, it[i].search(";")).toString();
-			}
-			var instructions = instructions.filter(word => word.length > 1);
-			//console.log(instructions);
-			callback(instructions);
+			console.log("The file was saved!");
 		});
 	}
 
-constructor() {
-		this.instructions;
+constructor(c) {
+		this.literals = new Literals();
 		this.buffer;
-		if (process.argv[2] == undefined) {
-			console.log("ERROR! No File Specified");
-			console.log("USAGE: " + process.argv[1] + " <file>");
-			process.exit(1);
-		}
+		this.registers = c;
 	}
 }
-var handler = new FileHandler();
-handler.loadFile(process.argv[2], handler.execute);
+//var handler = new FileHandler();
+//handler.loadFile(process.argv[2], handler.execute);

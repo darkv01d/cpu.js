@@ -1,0 +1,14 @@
+; count down from 10
+
+0x04 r0, 10 ; initial value
+0x04 r1, :halt ; halt adress
+0x04 r2, 1 ; decrementor
+0x04 r3, :main ; main adress
+
+:main
+0x1B r0, r0, r2 ; subtract r2 from r0 (r0--)
+0x0B r0, r1 ; if we looped 10 times jump to done
+0x02 r3 ; if we haven't reached zero yet, repeat
+
+:halt
+hlt ; halt the cpu, exits
