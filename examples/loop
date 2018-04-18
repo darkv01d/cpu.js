@@ -1,0 +1,14 @@
+; count down from 10
+
+cnst r0, 10 ; initial value
+cnst r1, :halt ; halt adress
+cnst r2, 1 ; decrementor
+cnst r3, :main ; main adress
+
+:main
+sub r0, r0, r2 ; subtract r2 from r0 (r0--)
+jmpeq r0, r1 ; if we looped 10 times jump to done
+call r3 ; if we haven't reached zero yet, repeat
+
+:halt
+hlt ; halt the cpu, exits
